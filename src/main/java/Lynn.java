@@ -55,6 +55,17 @@ public class Lynn {
                     continue;
                 }
 
+                if (command.startsWith("delete")) {
+                    int taskNumber = parseTaskNumber(command, "delete", taskCount);
+                    Task deletedTask = tasks[taskNumber];
+                    taskCount = deleteTask(tasks, taskCount, taskNumber);
+                    System.out.println("Noted. I've removed this task:");
+                    System.out.println("  " + deletedTask);
+                    System.out.println("Now you have " + taskCount + " tasks in the list.");
+                    System.out.println(line);
+                    continue;
+                }
+
                 if (command.startsWith("todo")) {
                     String description = parseDescription(command, "todo");
                     tasks[taskCount] = new Todo(description);
@@ -76,7 +87,7 @@ public class Lynn {
                     continue;
                 }
 
-                throw new LynnException("I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark, or bye.");
+                throw new LynnException("I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark, delete, or bye.");
             } catch (LynnException e) {
                 System.out.println("OOPS! " + e.getMessage());
                 System.out.println(line);
@@ -91,6 +102,14 @@ public class Lynn {
         System.out.println("Now you have " + taskCount + " tasks in the list.");
         System.out.println(line);
         return taskCount;
+    }
+
+    private static int deleteTask(Task[] tasks, int taskCount, int taskNumber) {
+        for (int i = taskNumber; i < taskCount - 1; i++) {
+            tasks[i] = tasks[i + 1];
+        }
+        tasks[taskCount - 1] = null;
+        return taskCount - 1;
     }
 
     private static String parseDescription(String command, String keyword) throws LynnException {
