@@ -9,7 +9,7 @@ public class Lynn {
                 + "|_____|\\__, |_| |_|_| |_|  \n"
                 + "       |___/               \n";
         String line = "____________________________________________________________";
-        String[] tasks = new String[100];
+        Task[] tasks = new Task[100];
         int taskCount = 0;
 
         System.out.println(line);
@@ -28,14 +28,33 @@ public class Lynn {
             }
 
             if ("list".equals(command)) {
+                System.out.println("Here are the tasks in your list:");
                 for (int i = 0; i < taskCount; i++) {
-                    System.out.println((i + 1) + ". " + tasks[i]);
+                    System.out.println((i + 1) + "." + tasks[i]);
                 }
                 System.out.println(line);
                 continue;
             }
 
-            tasks[taskCount] = command;
+            if (command.startsWith("mark ")) {
+                int taskNumber = Integer.parseInt(command.substring(5)) - 1;
+                tasks[taskNumber].markAsDone();
+                System.out.println("Nice! I've marked this task as done:");
+                System.out.println("  " + tasks[taskNumber]);
+                System.out.println(line);
+                continue;
+            }
+
+            if (command.startsWith("unmark ")) {
+                int taskNumber = Integer.parseInt(command.substring(7)) - 1;
+                tasks[taskNumber].markAsNotDone();
+                System.out.println("OK, I've marked this task as not done yet:");
+                System.out.println("  " + tasks[taskNumber]);
+                System.out.println(line);
+                continue;
+            }
+
+            tasks[taskCount] = new Task(command);
             taskCount++;
             System.out.println("added: " + command);
             System.out.println(line);
