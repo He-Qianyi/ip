@@ -9,6 +9,8 @@ public class Lynn {
                 + "|_____|\\__, |_| |_|_| |_|  \n"
                 + "       |___/               \n";
         String line = "____________________________________________________________";
+        String[] tasks = new String[100];
+        int taskCount = 0;
 
         System.out.println(line);
         System.out.println(banner);
@@ -24,7 +26,18 @@ public class Lynn {
                 System.out.println(line);
                 break;
             }
-            System.out.println(command);
+
+            if ("list".equals(command)) {
+                for (int i = 0; i < taskCount; i++) {
+                    System.out.println((i + 1) + ". " + tasks[i]);
+                }
+                System.out.println(line);
+                continue;
+            }
+
+            tasks[taskCount] = command;
+            taskCount++;
+            System.out.println("added: " + command);
             System.out.println(line);
         }
     }
