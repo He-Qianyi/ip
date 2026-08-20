@@ -9,8 +9,8 @@ Unless the user says otherwise, assume that you are assisting a student working 
 # Student profile
 
 * Prior knowledge: Basic Java and OOP concepts.
-* Level of programming experience: [to be filled]
-* IDE and level of expertise: [to be filled]
+* Level of programming experience: Beginner to early-intermediate; comfortable with basic Java syntax and small programs, but still learning software engineering workflow and design.
+* IDE and level of expertise: IntelliJ IDEA, beginner to intermediate.
 
 # Guidance for interacting with users
 
@@ -26,7 +26,7 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 ## Java version:
 
-Ensure that Java 25 is used when running the application or build tasks. On macOS, use `sdk use java 25.0.3.fx-zulu` to switch to Java 25 if needed.
+Ensure that Java 25 is used when running the application or build tasks. On macOS, this machine currently has Java 21, 11, and 8 installed but not Java 25. After installing JDK 25, switch to it with `export JAVA_HOME=$(/usr/libexec/java_home -v 25)` and `export PATH="$JAVA_HOME/bin:$PATH"`.
 
 ## Git
 
