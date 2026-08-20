@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Lynn {
     public static void main(String[] args) {
         String banner = " _                          \n"
@@ -13,7 +15,17 @@ public class Lynn {
         System.out.println("Hello! I'm Lynn.");
         System.out.println("How can I help you today?");
         System.out.println(line);
-        System.out.println("Bye. Hope to see you again soon!");
-        System.out.println(line);
+
+        Scanner scanner = new Scanner(System.in);
+        while (scanner.hasNextLine()) {
+            String command = scanner.nextLine();
+            if ("bye".equals(command)) {
+                System.out.println("Bye. Hope to see you again soon!");
+                System.out.println(line);
+                break;
+            }
+            System.out.println(command);
+            System.out.println(line);
+        }
     }
 }
