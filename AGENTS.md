@@ -28,6 +28,19 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 Ensure that Java 25 is used when running the application or build tasks. On macOS, this machine currently has Java 21, 11, and 8 installed but not Java 25. After installing JDK 25, switch to it with `export JAVA_HOME=$(/usr/libexec/java_home -v 25)` and `export PATH="$JAVA_HOME/bin:$PATH"`.
 
+## Current project scope
+
+The chatbot is currently implemented up to Level 4 of the iP project.
+Keep changes small, incremental, and aligned with the current increment requirements.
+Preserve the existing command-line behavior unless the current increment explicitly changes it.
+
+## Testing workflow
+
+After each code update:
+1. Verify the chatbot behavior with representative command-line inputs.
+2. Update any relevant manual test notes if the user-visible behavior changes.
+3. Do not commit until the updated behavior has been tested and the results have been reported.
+
 ## Git
 
 Use lightweight tags unless the user requests an annotated tag.

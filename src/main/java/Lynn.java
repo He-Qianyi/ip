@@ -54,9 +54,43 @@ public class Lynn {
                 continue;
             }
 
-            tasks[taskCount] = new Task(command);
+            if (command.startsWith("todo ")) {
+                tasks[taskCount] = new Todo(command.substring(5));
+                taskCount++;
+                System.out.println("Got it. I've added this task:");
+                System.out.println("  " + tasks[taskCount - 1]);
+                System.out.println("Now you have " + taskCount + " tasks in the list.");
+                System.out.println(line);
+                continue;
+            }
+
+            if (command.startsWith("deadline ")) {
+                String[] parts = command.substring(9).split(" /by ", 2);
+                tasks[taskCount] = new Deadline(parts[0], parts[1]);
+                taskCount++;
+                System.out.println("Got it. I've added this task:");
+                System.out.println("  " + tasks[taskCount - 1]);
+                System.out.println("Now you have " + taskCount + " tasks in the list.");
+                System.out.println(line);
+                continue;
+            }
+
+            if (command.startsWith("event ")) {
+                String[] parts = command.substring(6).split(" /from | /to ", 3);
+                tasks[taskCount] = new Event(parts[0], parts[1], parts[2]);
+                taskCount++;
+                System.out.println("Got it. I've added this task:");
+                System.out.println("  " + tasks[taskCount - 1]);
+                System.out.println("Now you have " + taskCount + " tasks in the list.");
+                System.out.println(line);
+                continue;
+            }
+
+            tasks[taskCount] = new Todo(command);
             taskCount++;
-            System.out.println("added: " + command);
+            System.out.println("Got it. I've added this task:");
+            System.out.println("  " + tasks[taskCount - 1]);
+            System.out.println("Now you have " + taskCount + " tasks in the list.");
             System.out.println(line);
         }
     }
