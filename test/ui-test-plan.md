@@ -74,3 +74,11 @@ Run `.agents/skills/test-ui/scripts/run-ui-tests.sh` after a command-line behavi
 * First-run inputs: `todo read | annotate book`, followed by `bye`.
 * Second-run inputs: `list`, followed by `bye`.
 * Expected output after `list`: `1.[T][ ] read | annotate book`.
+
+## Level 9: Find
+
+### Find tasks by a keyword
+
+* Aim: Verify that `find` matches task descriptions without regard to letter case.
+* Inputs: Add `Read Book`, `buy bread`, and `book club`, then run `find BOOK`, `find calendar`, and `find`.
+* Expected output: The first search lists `Read Book` and `book club` only; a search with no matches lists no tasks; an empty keyword produces a helpful error.

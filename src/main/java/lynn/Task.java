@@ -1,5 +1,7 @@
 package lynn;
 
+import java.util.Locale;
+
 public class Task {
     protected final String description;
     protected boolean isDone;
@@ -33,6 +35,10 @@ public class Task {
 
     String getDescription() {
         return description;
+    }
+
+    boolean containsKeyword(String keyword) {
+        return description.toLowerCase(Locale.ROOT).contains(keyword.toLowerCase(Locale.ROOT));
     }
 
     @Override

@@ -30,7 +30,7 @@ Ensure that Java 25 is used when running the application or build tasks. On macO
 
 ## Current project scope
 
-The chatbot is implemented through A-Jar; the current increment is A-CodingStandard (aligning code with the course Java standard).
+The chatbot is implemented through A-Jar; the current increment is Level-9 (finding tasks by a keyword).
 Keep changes small, incremental, and aligned with the current increment requirements.
 Preserve the existing command-line behavior unless the current increment explicitly changes it.
 
