@@ -41,6 +41,18 @@ class TaskList {
         return deletedTask;
     }
 
+    Task[] find(String keyword) {
+        Task[] matchingTasks = new Task[taskCount];
+        int matchingTaskCount = 0;
+        for (int i = 0; i < taskCount; i++) {
+            if (tasks[i].containsKeyword(keyword)) {
+                matchingTasks[matchingTaskCount] = tasks[i];
+                matchingTaskCount++;
+            }
+        }
+        return matchingTasks;
+    }
+
     int size() {
         return taskCount;
     }

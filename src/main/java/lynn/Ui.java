@@ -55,6 +55,18 @@ class Ui {
         System.out.println(LINE);
     }
 
+    void showMatchingTasks(Task[] matchingTasks) {
+        System.out.println("Here are the matching tasks in your list:");
+        int displayedTaskCount = 1;
+        for (Task matchingTask : matchingTasks) {
+            if (matchingTask != null) {
+                System.out.println(displayedTaskCount + "." + matchingTask);
+                displayedTaskCount++;
+            }
+        }
+        System.out.println(LINE);
+    }
+
     void showTaskAdded(Task task, int taskCount) {
         System.out.println("Got it. I've added this task:");
         System.out.println("  " + task);

@@ -52,6 +52,15 @@ class Parser {
         }
     }
 
+    /** Extracts a non-empty keyword for a find command. */
+    static String parseFindKeyword(String command) throws LynnException {
+        String keyword = command.substring("find".length()).trim();
+        if (keyword.isEmpty()) {
+            throw new LynnException("The keyword to find cannot be empty.");
+        }
+        return keyword;
+    }
+
     /** Extracts a non-empty description following a task keyword. */
     private static String parseDescription(String command, String keyword) throws LynnException {
         String description = command.substring(keyword.length()).trim();
@@ -96,6 +105,6 @@ class Parser {
 
     private static LynnException unknownCommandException() {
         return new LynnException(
-                "I don't recognize that command yet. Try todo, deadline, event, list, mark, unmark, delete, or bye.");
+                "I don't recognize that command yet. Try todo, deadline, event, list, find, mark, unmark, delete, or bye.");
     }
 }

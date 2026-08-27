@@ -1,5 +1,7 @@
 package lynn;
 
+import java.util.Locale;
+
 /** Represents a task with a description, type, and completion state. */
 public class Task {
     /** The user-provided description of this task. */
@@ -51,9 +53,13 @@ public class Task {
         return description;
     }
 
+    /** Returns whether the description contains the keyword, ignoring case. */
+    boolean containsKeyword(String keyword) {
+        return description.toLowerCase(Locale.ROOT).contains(keyword.toLowerCase(Locale.ROOT));
+    }
+
     /** Returns the task in Lynn's list-display format. */
     @Override
-    /** Returns the task in Lynn's list-display format. */
     public String toString() {
         return "[" + taskType.getIcon() + "][" + getStatusIcon() + "] " + description;
     }

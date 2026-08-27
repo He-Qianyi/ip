@@ -47,6 +47,9 @@ public class Lynn {
             Parser.requireExactCommand(command, "list");
             ui.showTaskList(tasks);
             return false;
+        case "find":
+            findTasks(command);
+            return false;
         case "mark":
             markTask(command, true);
             return false;
@@ -60,6 +63,13 @@ public class Lynn {
             addTask(command);
             return false;
         }
+    }
+
+    /** Finds all tasks whose descriptions contain the supplied keyword. */
+    private void findTasks(String command) throws LynnException {
+        String keyword = Parser.parseFindKeyword(command);
+        Task[] matchingTasks = tasks.find(keyword);
+        ui.showMatchingTasks(matchingTasks);
     }
 
     /** Parses, adds, saves, and displays a new task. */
