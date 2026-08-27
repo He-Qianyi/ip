@@ -30,7 +30,7 @@ Ensure that Java 25 is used when running the application or build tasks. On macO
 
 ## Current project scope
 
-The chatbot is implemented through Level 8; the current increment is A-MoreOOP (refactoring into collaborating classes).
+The chatbot is implemented through A-MoreOOP; the current increment is A-Packages (organizing Java classes into packages).
 Keep changes small, incremental, and aligned with the current increment requirements.
 Preserve the existing command-line behavior unless the current increment explicitly changes it.
 

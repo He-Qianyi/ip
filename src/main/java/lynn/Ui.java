@@ -1,3 +1,5 @@
+package lynn;
+
 import java.util.Scanner;
 
 /** Handles all command-line input and output for Lynn. */
