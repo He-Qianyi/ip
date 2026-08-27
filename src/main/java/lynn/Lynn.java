@@ -1,3 +1,5 @@
+package lynn;
+
 /** Coordinates the chatbot's user interface, task list, parser, and storage. */
 public class Lynn {
     private final Storage storage;

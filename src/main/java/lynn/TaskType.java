@@ -1,3 +1,5 @@
+package lynn;
+
 public enum TaskType {
     TODO("T"),
     DEADLINE("D"),
