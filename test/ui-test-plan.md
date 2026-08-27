@@ -1,5 +1,27 @@
 # UI Test Plan
 
+## Automated Test-UI Skill
+
+Run `.agents/skills/test-ui/scripts/run-ui-tests.sh` after a command-line behavior or persistence update. The executable cases are in `test/ui-test-cases.tsv`; its input and expected-output fragments correspond to the scenarios below. The script builds `lynn.jar`, runs each case in a temporary directory, prints the console input/output, and terminates at the first failed check.
+
+### Core task flow
+
+* Aim: Verify all three task types, marking, listing, and exit in one session.
+* Inputs: `todo read book`, `deadline return book /by 2026-09-01`, `event team meeting /from Mon 2pm /to 4pm`, `mark 2`, `list`, `bye`.
+* Expected output: The list contains a todo, a completed deadline shown as `Sep 1 2026`, and an event; Lynn then says goodbye.
+
+### Errors preserve state
+
+* Aim: Verify malformed and unknown commands show a helpful error without adding a task.
+* Inputs: `todo`, `deadline bad /by next Thursday`, `unknown command`, `list`, `bye`.
+* Expected output: Each invalid input produces an error; the following list is empty.
+
+### State remains correct after an error
+
+* Aim: Interleave successful and failing commands to ensure an error does not corrupt task state.
+* Inputs: `todo buy bread`, `mark 1`, `mark 9`, `list`, `unmark 1`, `delete 1`, `list`, `bye`.
+* Expected output: The invalid `mark 9` reports that task 9 does not exist; task 1 remains marked until `unmark 1`, and deletion leaves zero tasks.
+
 ## Level 7: Persistent Storage
 
 ### First launch creates storage
