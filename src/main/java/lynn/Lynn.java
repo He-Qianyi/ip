@@ -6,6 +6,7 @@ public class Lynn {
     private final TaskList tasks;
     private final Ui ui;
 
+    /** Creates Lynn and loads any previously saved task list. */
     public Lynn() {
         storage = new Storage();
         ui = new Ui();
@@ -89,6 +90,11 @@ public class Lynn {
         ui.showTaskDeleted(deletedTask, tasks.size());
     }
 
+    /**
+     * Starts the command-line application.
+     *
+     * @param args command-line arguments, which are not used
+     */
     public static void main(String[] args) {
         new Lynn().run();
     }

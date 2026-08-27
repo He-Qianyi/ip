@@ -30,7 +30,7 @@ Ensure that Java 25 is used when running the application or build tasks. On macO
 
 ## Current project scope
 
-The chatbot is implemented through A-JUnit; the current increment is A-Jar (creating an executable JAR with Gradle).
+The chatbot is implemented through A-Jar; the current increment is A-JavaDoc (documenting the public API).
 Keep changes small, incremental, and aligned with the current increment requirements.
 Preserve the existing command-line behavior unless the current increment explicitly changes it.
 
