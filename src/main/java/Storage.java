@@ -12,11 +12,11 @@ import java.util.List;
 final class Storage {
     private static final Path STORAGE_PATH = Path.of("data", "lynn.txt");
 
-    private Storage() {
+    Storage() {
     }
 
     /** Loads saved tasks, creating the storage directory and file if needed. */
-    static Task[] load() throws LynnException {
+    TaskList load() throws LynnException {
         try {
             createStorageIfMissing();
             List<String> taskLines = Files.readAllLines(STORAGE_PATH, StandardCharsets.UTF_8);
@@ -33,7 +33,7 @@ final class Storage {
                 tasks[taskCount] = parseTask(taskLine);
                 taskCount++;
             }
-            return tasks;
+            return new TaskList(tasks);
         } catch (IOException e) {
             throw new LynnException("I couldn't load your saved tasks.");
         } catch (IllegalArgumentException | DateTimeException e) {
@@ -42,12 +42,12 @@ final class Storage {
     }
 
     /** Saves all current tasks to a relative, OS-independent file path. */
-    static void save(Task[] tasks, int taskCount) throws LynnException {
+    void save(TaskList tasks) throws LynnException {
         try {
             createStorageIfMissing();
             List<String> taskLines = new ArrayList<>();
-            for (int i = 0; i < taskCount; i++) {
-                taskLines.add(formatTask(tasks[i]));
+            for (int i = 0; i < tasks.size(); i++) {
+                taskLines.add(formatTask(tasks.get(i)));
             }
             Files.write(STORAGE_PATH, taskLines, StandardCharsets.UTF_8);
         } catch (IOException e) {
