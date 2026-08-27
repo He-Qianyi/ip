@@ -25,6 +25,7 @@ public class Deadline extends Task {
         return by;
     }
 
+    /** Returns the deadline in Lynn's list-display format. */
     @Override
     /** Returns the deadline in Lynn's list-display format. */
     public String toString() {

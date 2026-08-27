@@ -30,16 +30,17 @@ Ensure that Java 25 is used when running the application or build tasks. On macO
 
 ## Current project scope
 
-The chatbot is implemented through A-Jar; the current increment is A-JavaDoc (documenting the public API).
+The chatbot is implemented through A-CodingStandard; the next increment to merge is Level-9 (finding tasks by a keyword).
 Keep changes small, incremental, and aligned with the current increment requirements.
 Preserve the existing command-line behavior unless the current increment explicitly changes it.
 
 ## Testing workflow
 
-After each code update:
-1. Verify the chatbot behavior with representative command-line inputs.
-2. Update any relevant manual test notes if the user-visible behavior changes.
-3. Do not commit until the updated behavior has been tested and the results have been reported.
+After each code update that can affect command-line behavior or stored data:
+1. Update `test/ui-test-plan.md` and `test/ui-test-cases.tsv` if the behavior or relevant edge cases changed.
+2. Invoke the project-local `test-ui` skill at `.agents/skills/test-ui/SKILL.md`, which runs its test script in an isolated temporary directory.
+3. Report the console input/output produced by the skill. If a test fails, stop and report the expected and actual output before continuing.
+4. Do not commit until the updated behavior has been tested and the results have been reported.
 
 ## Git
 

@@ -8,6 +8,7 @@ class Parser {
     private Parser() {
     }
 
+    /** Extracts the first word of a command after trimming whitespace. */
     static String getCommandWord(String command) {
         String trimmedCommand = command.trim();
         if (trimmedCommand.isEmpty()) {
@@ -16,12 +17,14 @@ class Parser {
         return trimmedCommand.split("\\s+", 2)[0];
     }
 
+    /** Ensures that a command contains no arguments beyond its keyword. */
     static void requireExactCommand(String command, String keyword) throws LynnException {
         if (!command.trim().equals(keyword)) {
             throw unknownCommandException();
         }
     }
 
+    /** Parses a todo, deadline, or event command into a task object. */
     static Task parseTask(String command) throws LynnException {
         return switch (getCommandWord(command)) {
         case "todo" -> new Todo(parseDescription(command, "todo"));
@@ -31,6 +34,7 @@ class Parser {
         };
     }
 
+    /** Parses and validates a one-based task number from a user command. */
     static int parseTaskNumber(String command, String keyword, int taskCount) throws LynnException {
         String numberText = command.substring(keyword.length()).trim();
         if (numberText.isEmpty()) {
@@ -48,6 +52,7 @@ class Parser {
         }
     }
 
+    /** Extracts a non-empty description following a task keyword. */
     private static String parseDescription(String command, String keyword) throws LynnException {
         String description = command.substring(keyword.length()).trim();
         if (description.isEmpty()) {
@@ -56,6 +61,7 @@ class Parser {
         return description;
     }
 
+    /** Parses a deadline command and validates its ISO-8601 date. */
     private static Deadline parseDeadline(String command) throws LynnException {
         String details = command.substring("deadline".length()).trim();
         if (details.isEmpty()) {
@@ -74,6 +80,7 @@ class Parser {
         }
     }
 
+    /** Parses an event command and validates its start and end text. */
     private static Event parseEvent(String command) throws LynnException {
         String details = command.substring("event".length()).trim();
         if (details.isEmpty()) {

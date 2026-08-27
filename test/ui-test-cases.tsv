@@ -1,0 +1,6 @@
+# case-id<TAB>storage-group<TAB>console-inputs (literal \n separates lines)<TAB>required output fragments (literal \n, separated by ;;)
+core-task-flow	core	todo read book\ndeadline return book /by 2026-09-01\nevent team meeting /from Mon 2pm /to 4pm\nmark 2\nlist\nbye	[T][ ] read book;;[D][X] return book (by: Sep 1 2026);;[E][ ] team meeting (from: Mon 2pm to: 4pm);;Bye. Hope to see you again soon!
+errors-do-not-change-state	errors	todo\ndeadline bad /by next Thursday\nunknown command\nlist\nbye	The description of a todo cannot be empty.;;Use yyyy-MM-dd for deadline dates, for example 2026-09-01.;;I don't recognize that command yet.;;Here are the tasks in your list:
+persistence-and-separators	persistence	todo read | annotate book\nbye	Got it. I've added this task:;;[T][ ] read | annotate book
+persistence-and-separators-reload	persistence	list\nbye	1.[T][ ] read | annotate book;;Bye. Hope to see you again soon!
+state-after-error	state	todo buy bread\nmark 1\nmark 9\nlist\nunmark 1\ndelete 1\nlist\nbye	Nice! I've marked this task as done:;;That task number is not in your list.;;1.[T][X] buy bread;;OK, I've marked this task as not done yet:;;Now you have 0 tasks in the list.

@@ -26,6 +26,7 @@ public class Event extends Task {
         return to;
     }
 
+    /** Returns the event in Lynn's list-display format. */
     @Override
     /** Returns the event in Lynn's list-display format. */
     public String toString() {

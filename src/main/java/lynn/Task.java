@@ -51,6 +51,7 @@ public class Task {
         return description;
     }
 
+    /** Returns the task in Lynn's list-display format. */
     @Override
     /** Returns the task in Lynn's list-display format. */
     public String toString() {

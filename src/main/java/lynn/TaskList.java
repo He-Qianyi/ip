@@ -6,15 +6,18 @@ class TaskList {
     private final Task[] tasks;
     private int taskCount;
 
+    /** Creates an empty task list with the fixed project capacity. */
     TaskList() {
         this(new Task[MAX_TASKS]);
     }
 
+    /** Creates a task list from the contiguous tasks loaded from storage. */
     TaskList(Task[] tasks) {
         this.tasks = tasks;
         taskCount = countTasks(tasks);
     }
 
+    /** Adds a task at the end of the list. */
     void add(Task task) throws LynnException {
         if (taskCount == MAX_TASKS) {
             throw new LynnException("Your task list is full.");
@@ -27,6 +30,7 @@ class TaskList {
         return tasks[index];
     }
 
+    /** Removes the task at an already-validated zero-based index. */
     Task delete(int index) {
         Task deletedTask = tasks[index];
         for (int i = index; i < taskCount - 1; i++) {
@@ -41,6 +45,7 @@ class TaskList {
         return taskCount;
     }
 
+    /** Counts the contiguous non-null tasks that were loaded from storage. */
     private int countTasks(Task[] loadedTasks) {
         int loadedTaskCount = 0;
         while (loadedTaskCount < loadedTasks.length && loadedTasks[loadedTaskCount] != null) {
