@@ -12,6 +12,14 @@ public class Lynn {
         Task[] tasks = new Task[100];
         int taskCount = 0;
 
+        try {
+            tasks = Storage.load();
+            taskCount = countTasks(tasks);
+        } catch (LynnException e) {
+            System.out.println("OOPS! " + e.getMessage());
+            System.out.println(line);
+        }
+
         System.out.println(line);
         System.out.println(banner);
         System.out.println("Hello! I'm Lynn.");
@@ -40,6 +48,7 @@ public class Lynn {
                 if (command.startsWith("mark")) {
                     int taskNumber = parseTaskNumber(command, "mark", taskCount);
                     tasks[taskNumber].markAsDone();
+                    Storage.save(tasks, taskCount);
                     System.out.println("Nice! I've marked this task as done:");
                     System.out.println("  " + tasks[taskNumber]);
                     System.out.println(line);
@@ -49,6 +58,7 @@ public class Lynn {
                 if (command.startsWith("unmark")) {
                     int taskNumber = parseTaskNumber(command, "unmark", taskCount);
                     tasks[taskNumber].markAsNotDone();
+                    Storage.save(tasks, taskCount);
                     System.out.println("OK, I've marked this task as not done yet:");
                     System.out.println("  " + tasks[taskNumber]);
                     System.out.println(line);
@@ -59,6 +69,7 @@ public class Lynn {
                     int taskNumber = parseTaskNumber(command, "delete", taskCount);
                     Task deletedTask = tasks[taskNumber];
                     taskCount = deleteTask(tasks, taskCount, taskNumber);
+                    Storage.save(tasks, taskCount);
                     System.out.println("Noted. I've removed this task:");
                     System.out.println("  " + deletedTask);
                     System.out.println("Now you have " + taskCount + " tasks in the list.");
@@ -68,22 +79,31 @@ public class Lynn {
 
                 if (command.startsWith("todo")) {
                     String description = parseDescription(command, "todo");
+                    ensureTaskCapacity(taskCount);
                     tasks[taskCount] = new Todo(description);
-                    taskCount = printTaskAdded(tasks, taskCount, line);
+                    taskCount++;
+                    Storage.save(tasks, taskCount);
+                    printTaskAdded(tasks[taskCount - 1], taskCount, line);
                     continue;
                 }
 
                 if (command.startsWith("deadline")) {
                     String[] parts = parseDeadline(command);
+                    ensureTaskCapacity(taskCount);
                     tasks[taskCount] = new Deadline(parts[0], parts[1]);
-                    taskCount = printTaskAdded(tasks, taskCount, line);
+                    taskCount++;
+                    Storage.save(tasks, taskCount);
+                    printTaskAdded(tasks[taskCount - 1], taskCount, line);
                     continue;
                 }
 
                 if (command.startsWith("event")) {
                     String[] parts = parseEvent(command);
+                    ensureTaskCapacity(taskCount);
                     tasks[taskCount] = new Event(parts[0], parts[1], parts[2]);
-                    taskCount = printTaskAdded(tasks, taskCount, line);
+                    taskCount++;
+                    Storage.save(tasks, taskCount);
+                    printTaskAdded(tasks[taskCount - 1], taskCount, line);
                     continue;
                 }
 
@@ -95,13 +115,25 @@ public class Lynn {
         }
     }
 
-    private static int printTaskAdded(Task[] tasks, int taskCount, String line) {
+    private static void printTaskAdded(Task task, int taskCount, String line) {
         System.out.println("Got it. I've added this task:");
-        System.out.println("  " + tasks[taskCount]);
-        taskCount++;
+        System.out.println("  " + task);
         System.out.println("Now you have " + taskCount + " tasks in the list.");
         System.out.println(line);
+    }
+
+    private static int countTasks(Task[] tasks) {
+        int taskCount = 0;
+        while (taskCount < tasks.length && tasks[taskCount] != null) {
+            taskCount++;
+        }
         return taskCount;
+    }
+
+    private static void ensureTaskCapacity(int taskCount) throws LynnException {
+        if (taskCount == 100) {
+            throw new LynnException("Your task list is full.");
+        }
     }
 
     private static int deleteTask(Task[] tasks, int taskCount, int taskNumber) {
