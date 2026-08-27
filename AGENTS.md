@@ -30,7 +30,7 @@ Ensure that Java 25 is used when running the application or build tasks. On macO
 
 ## Current project scope
 
-The chatbot is implemented through A-Packages; the current increment is A-Gradle (building and running with Gradle).
+The chatbot is implemented through A-Gradle; the current increment is A-JUnit (automated unit tests with Gradle).
 Keep changes small, incremental, and aligned with the current increment requirements.
 Preserve the existing command-line behavior unless the current increment explicitly changes it.
 
