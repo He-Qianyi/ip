@@ -1,11 +1,11 @@
 package lynn;
 
 import java.io.IOException;
-import java.time.DateTimeException;
-import java.time.LocalDate;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -57,6 +57,7 @@ final class Storage {
         }
     }
 
+    /** Creates the storage directory and file when Lynn runs for the first time. */
     private static void createStorageIfMissing() throws IOException {
         Files.createDirectories(STORAGE_PATH.getParent());
         if (Files.notExists(STORAGE_PATH)) {
@@ -64,6 +65,7 @@ final class Storage {
         }
     }
 
+    /** Converts one task into a pipe-separated storage record. */
     private static String formatTask(Task task) {
         String status = task.isDone() ? "1" : "0";
         String description = encode(task.getDescription());
@@ -76,6 +78,7 @@ final class Storage {
         };
     }
 
+    /** Converts one saved storage record into the corresponding task object. */
     private static Task parseTask(String taskLine) {
         String[] fields = taskLine.split("\\|", -1);
         Task task = switch (fields[0]) {

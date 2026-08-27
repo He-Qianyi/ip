@@ -6,6 +6,7 @@ public class Lynn {
     private final TaskList tasks;
     private final Ui ui;
 
+    /** Creates Lynn and loads any previously saved task list. */
     public Lynn() {
         storage = new Storage();
         ui = new Ui();
@@ -34,6 +35,7 @@ public class Lynn {
         }
     }
 
+    /** Routes a user command to the matching operation. */
     private boolean handleCommand(String command) throws LynnException {
         String commandWord = Parser.getCommandWord(command);
         switch (commandWord) {
@@ -60,6 +62,7 @@ public class Lynn {
         }
     }
 
+    /** Parses, adds, saves, and displays a new task. */
     private void addTask(String command) throws LynnException {
         Task task = Parser.parseTask(command);
         tasks.add(task);
@@ -67,6 +70,7 @@ public class Lynn {
         ui.showTaskAdded(task, tasks.size());
     }
 
+    /** Updates a task's completion state, then saves and displays it. */
     private void markTask(String command, boolean isDone) throws LynnException {
         String commandWord = Parser.getCommandWord(command);
         int taskNumber = Parser.parseTaskNumber(command, commandWord, tasks.size());
@@ -82,6 +86,7 @@ public class Lynn {
         }
     }
 
+    /** Removes the requested task, then saves and displays it. */
     private void deleteTask(String command) throws LynnException {
         int taskNumber = Parser.parseTaskNumber(command, "delete", tasks.size());
         Task deletedTask = tasks.delete(taskNumber);
@@ -89,6 +94,11 @@ public class Lynn {
         ui.showTaskDeleted(deletedTask, tasks.size());
     }
 
+    /**
+     * Starts the command-line application.
+     *
+     * @param args command-line arguments, which are not used
+     */
     public static void main(String[] args) {
         new Lynn().run();
     }
