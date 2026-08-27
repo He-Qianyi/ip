@@ -14,7 +14,7 @@
 * First-run inputs:
   ```text
   todo read book
-  deadline return book /by Sunday
+  deadline return book /by 2026-09-01
   event team meeting /from Mon 2pm /to 4pm
   mark 2
   delete 3
@@ -29,8 +29,22 @@
   ```text
   Here are the tasks in your list:
   1.[T][ ] read book
-  2.[D][X] return book (by: Sunday)
+  2.[D][X] return book (by: Sep 1 2026)
   ```
+
+## Level 8: Deadline Dates
+
+### Parse and format a deadline date
+
+* Aim: Verify that a deadline is stored as a date rather than unprocessed text.
+* Inputs: `deadline submit report /by 2026-10-15`, followed by `list`.
+* Expected output: The task is displayed as `[D][ ] submit report (by: Oct 15 2026)`.
+
+### Reject an invalid deadline date
+
+* Aim: Verify that malformed date input produces a helpful error without adding a task.
+* Inputs: `deadline submit report /by next Thursday`, followed by `list`.
+* Expected output: Lynn asks for a `yyyy-MM-dd` date, and `list` does not contain `submit report`.
 
 ### Descriptions containing separators
 

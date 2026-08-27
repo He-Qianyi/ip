@@ -30,7 +30,7 @@ Ensure that Java 25 is used when running the application or build tasks. On macO
 
 ## Current project scope
 
-The chatbot is implemented through Level 6; the current increment is Level 7 (persistent storage).
+The chatbot is implemented through Level 7; the current increment is Level 8 (dates and times).
 Keep changes small, incremental, and aligned with the current increment requirements.
 Preserve the existing command-line behavior unless the current increment explicitly changes it.
 

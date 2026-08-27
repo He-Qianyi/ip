@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class Lynn {
@@ -88,9 +90,9 @@ public class Lynn {
                 }
 
                 if (command.startsWith("deadline")) {
-                    String[] parts = parseDeadline(command);
+                    Deadline deadline = parseDeadline(command);
                     ensureTaskCapacity(taskCount);
-                    tasks[taskCount] = new Deadline(parts[0], parts[1]);
+                    tasks[taskCount] = deadline;
                     taskCount++;
                     Storage.save(tasks, taskCount);
                     printTaskAdded(tasks[taskCount - 1], taskCount, line);
@@ -152,7 +154,7 @@ public class Lynn {
         return description;
     }
 
-    private static String[] parseDeadline(String command) throws LynnException {
+    private static Deadline parseDeadline(String command) throws LynnException {
         String details = command.substring("deadline".length()).trim();
         if (details.isEmpty()) {
             throw new LynnException("The description of a deadline cannot be empty.");
@@ -160,9 +162,14 @@ public class Lynn {
 
         String[] parts = details.split(" /by ", 2);
         if (parts.length < 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
-            throw new LynnException("Use deadline <description> /by <time>.");
+            throw new LynnException("Use deadline <description> /by <yyyy-MM-dd>.");
         }
-        return new String[]{parts[0].trim(), parts[1].trim()};
+
+        try {
+            return new Deadline(parts[0].trim(), LocalDate.parse(parts[1].trim()));
+        } catch (DateTimeParseException e) {
+            throw new LynnException("Use yyyy-MM-dd for deadline dates, for example 2026-09-01.");
+        }
     }
 
     private static String[] parseEvent(String command) throws LynnException {
