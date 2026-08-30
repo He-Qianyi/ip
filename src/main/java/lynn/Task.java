@@ -6,8 +6,10 @@ import java.util.Locale;
 public class Task {
     /** The user-provided description of this task. */
     protected final String description;
+
     /** Whether this task has been completed. */
     protected boolean isDone;
+
     private final TaskType taskType;
 
     /**

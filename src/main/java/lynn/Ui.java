@@ -5,12 +5,14 @@ import java.util.Scanner;
 /** Handles all command-line input and output for Lynn. */
 class Ui {
     private static final String LINE = "____________________________________________________________";
+
     private static final String BANNER = " _                          \n"
             + "| |    _   _ _ __  _ __    \n"
             + "| |   | | | | '_ \\| '_ \\   \n"
             + "| |___| |_| | | | | | | |  \n"
             + "|_____|\\__, |_| |_|_| |_|  \n"
             + "       |___/               \n";
+
     private final Scanner scanner;
 
     Ui() {

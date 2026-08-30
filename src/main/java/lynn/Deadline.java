@@ -8,6 +8,7 @@ import java.util.Locale;
 public class Deadline extends Task {
     private static final DateTimeFormatter DISPLAY_FORMAT =
             DateTimeFormatter.ofPattern("MMM d yyyy", Locale.ENGLISH);
+
     private final LocalDate by;
 
     /**

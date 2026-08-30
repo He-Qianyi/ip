@@ -97,7 +97,8 @@ class Parser {
         }
 
         String[] parts = details.split(" /from | /to ", 3);
-        if (parts.length < 3 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty() || parts[2].trim().isEmpty()) {
+        if (parts.length < 3 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()
+                || parts[2].trim().isEmpty()) {
             throw new LynnException("Use event <description> /from <start> /to <end>.");
         }
         return new Event(parts[0].trim(), parts[1].trim(), parts[2].trim());
@@ -105,6 +106,7 @@ class Parser {
 
     private static LynnException unknownCommandException() {
         return new LynnException(
-                "I don't recognize that command yet. Try todo, deadline, event, list, find, mark, unmark, delete, or bye.");
+                "I don't recognize that command yet. Try todo, deadline, event, list, find, mark, unmark, "
+                        + "delete, or bye.");
     }
 }
