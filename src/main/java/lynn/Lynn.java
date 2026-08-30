@@ -8,8 +8,13 @@ public class Lynn {
 
     /** Creates Lynn and loads any previously saved task list. */
     public Lynn() {
+        this(new Ui());
+    }
+
+    /** Creates Lynn with the given user interface. */
+    Lynn(Ui ui) {
         storage = new Storage();
-        ui = new Ui();
+        this.ui = ui;
         TaskList loadedTasks;
         try {
             loadedTasks = storage.load();
@@ -18,6 +23,16 @@ public class Lynn {
             loadedTasks = new TaskList();
         }
         tasks = loadedTasks;
+    }
+
+    /** Processes one command and writes its response through Lynn's user interface. */
+    boolean respondTo(String command) {
+        try {
+            return handleCommand(command);
+        } catch (LynnException e) {
+            ui.showError(e.getMessage());
+            return false;
+        }
     }
 
     /** Runs Lynn until the user enters the bye command. */
