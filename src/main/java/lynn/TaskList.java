@@ -3,7 +3,9 @@ package lynn;
 /** Stores and manages Lynn's fixed-capacity task list. */
 class TaskList {
     private static final int MAX_TASKS = 100;
+
     private final Task[] tasks;
+
     private int taskCount;
 
     /** Creates an empty task list with the fixed project capacity. */
