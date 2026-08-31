@@ -15,6 +15,7 @@ class Ui {
             + "       |___/               \n";
 
     private final Scanner scanner;
+
     private final PrintStream output;
 
     Ui() {
@@ -35,12 +36,15 @@ class Ui {
         return scanner.nextLine();
     }
 
+    /** Prints any number of lines in the order they are supplied. */
+    private void showLines(String... lines) {
+        for (String line : lines) {
+            output.println(line);
+        }
+    }
+
     void showWelcome() {
-        output.println(LINE);
-        output.println(BANNER);
-        output.println("Hello! I'm Lynn.");
-        output.println("How can I help you today?");
-        output.println(LINE);
+        showLines(LINE, BANNER, "Hello! I'm Lynn.", "How can I help you today?", LINE);
     }
 
     void showLoadingError(String message) {
@@ -48,25 +52,23 @@ class Ui {
     }
 
     void showError(String message) {
-        output.println("OOPS! " + message);
-        output.println(LINE);
+        showLines("OOPS! " + message, LINE);
     }
 
     void showGoodbye() {
-        output.println("Bye. Hope to see you again soon!");
-        output.println(LINE);
+        showLines("Bye. Hope to see you again soon!", LINE);
     }
 
     void showTaskList(TaskList tasks) {
-        output.println("Here are the tasks in your list:");
+        showLines("Here are the tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
             output.println((i + 1) + "." + tasks.get(i));
         }
-        output.println(LINE);
+        showLines(LINE);
     }
 
     void showMatchingTasks(Task[] matchingTasks) {
-        output.println("Here are the matching tasks in your list:");
+        showLines("Here are the matching tasks in your list:");
         int displayedTaskCount = 1;
         for (Task matchingTask : matchingTasks) {
             if (matchingTask != null) {
@@ -74,32 +76,24 @@ class Ui {
                 displayedTaskCount++;
             }
         }
-        output.println(LINE);
+        showLines(LINE);
     }
 
     void showTaskAdded(Task task, int taskCount) {
-        output.println("Got it. I've added this task:");
-        output.println("  " + task);
-        output.println("Now you have " + taskCount + " tasks in the list.");
-        output.println(LINE);
+        showLines("Got it. I've added this task:", "  " + task,
+                "Now you have " + taskCount + " tasks in the list.", LINE);
     }
 
     void showTaskMarked(Task task) {
-        output.println("Nice! I've marked this task as done:");
-        output.println("  " + task);
-        output.println(LINE);
+        showLines("Nice! I've marked this task as done:", "  " + task, LINE);
     }
 
     void showTaskUnmarked(Task task) {
-        output.println("OK, I've marked this task as not done yet:");
-        output.println("  " + task);
-        output.println(LINE);
+        showLines("OK, I've marked this task as not done yet:", "  " + task, LINE);
     }
 
     void showTaskDeleted(Task task, int taskCount) {
-        output.println("Noted. I've removed this task:");
-        output.println("  " + task);
-        output.println("Now you have " + taskCount + " tasks in the list.");
-        output.println(LINE);
+        showLines("Noted. I've removed this task:", "  " + task,
+                "Now you have " + taskCount + " tasks in the list.", LINE);
     }
 }
