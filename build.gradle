@@ -20,11 +20,21 @@ checkstyle {
 
 dependencies {
     String jUnitVersion = '5.14.4'
+    String javaFxVersion = '25.0.2'
+    String[] javaFxModules = ['base', 'controls', 'graphics', 'fxml']
+    String[] javaFxPlatforms = ['win', 'mac', 'mac-aarch64', 'linux', 'linux-aarch64']
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:${jUnitVersion}"
 
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${jUnitVersion}"
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.14.4'
+
+    javaFxModules.each { module ->
+        javaFxPlatforms.each { platform ->
+            implementation group: 'org.openjfx', name: "javafx-${module}",
+                    version: javaFxVersion, classifier: platform
+        }
+    }
 }
 
 test {
@@ -42,7 +52,7 @@ test {
 }
 
 application {
-    mainClass = 'lynn.Lynn'
+    mainClass = 'lynn.Launcher'
 }
 
 jar {

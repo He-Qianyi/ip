@@ -1,5 +1,6 @@
 package lynn;
 
+import java.io.PrintStream;
 import java.util.Scanner;
 
 /** Handles all command-line input and output for Lynn. */
@@ -14,9 +15,16 @@ class Ui {
             + "       |___/               \n";
 
     private final Scanner scanner;
+    private final PrintStream output;
 
     Ui() {
+        this(System.out);
+    }
+
+    /** Creates a user interface that writes messages to the supplied stream. */
+    Ui(PrintStream output) {
         scanner = new Scanner(System.in);
+        this.output = output;
     }
 
     boolean hasNextCommand() {
@@ -28,11 +36,11 @@ class Ui {
     }
 
     void showWelcome() {
-        System.out.println(LINE);
-        System.out.println(BANNER);
-        System.out.println("Hello! I'm Lynn.");
-        System.out.println("How can I help you today?");
-        System.out.println(LINE);
+        output.println(LINE);
+        output.println(BANNER);
+        output.println("Hello! I'm Lynn.");
+        output.println("How can I help you today?");
+        output.println(LINE);
     }
 
     void showLoadingError(String message) {
@@ -40,58 +48,58 @@ class Ui {
     }
 
     void showError(String message) {
-        System.out.println("OOPS! " + message);
-        System.out.println(LINE);
+        output.println("OOPS! " + message);
+        output.println(LINE);
     }
 
     void showGoodbye() {
-        System.out.println("Bye. Hope to see you again soon!");
-        System.out.println(LINE);
+        output.println("Bye. Hope to see you again soon!");
+        output.println(LINE);
     }
 
     void showTaskList(TaskList tasks) {
-        System.out.println("Here are the tasks in your list:");
+        output.println("Here are the tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + "." + tasks.get(i));
+            output.println((i + 1) + "." + tasks.get(i));
         }
-        System.out.println(LINE);
+        output.println(LINE);
     }
 
     void showMatchingTasks(Task[] matchingTasks) {
-        System.out.println("Here are the matching tasks in your list:");
+        output.println("Here are the matching tasks in your list:");
         int displayedTaskCount = 1;
         for (Task matchingTask : matchingTasks) {
             if (matchingTask != null) {
-                System.out.println(displayedTaskCount + "." + matchingTask);
+                output.println(displayedTaskCount + "." + matchingTask);
                 displayedTaskCount++;
             }
         }
-        System.out.println(LINE);
+        output.println(LINE);
     }
 
     void showTaskAdded(Task task, int taskCount) {
-        System.out.println("Got it. I've added this task:");
-        System.out.println("  " + task);
-        System.out.println("Now you have " + taskCount + " tasks in the list.");
-        System.out.println(LINE);
+        output.println("Got it. I've added this task:");
+        output.println("  " + task);
+        output.println("Now you have " + taskCount + " tasks in the list.");
+        output.println(LINE);
     }
 
     void showTaskMarked(Task task) {
-        System.out.println("Nice! I've marked this task as done:");
-        System.out.println("  " + task);
-        System.out.println(LINE);
+        output.println("Nice! I've marked this task as done:");
+        output.println("  " + task);
+        output.println(LINE);
     }
 
     void showTaskUnmarked(Task task) {
-        System.out.println("OK, I've marked this task as not done yet:");
-        System.out.println("  " + task);
-        System.out.println(LINE);
+        output.println("OK, I've marked this task as not done yet:");
+        output.println("  " + task);
+        output.println(LINE);
     }
 
     void showTaskDeleted(Task task, int taskCount) {
-        System.out.println("Noted. I've removed this task:");
-        System.out.println("  " + task);
-        System.out.println("Now you have " + taskCount + " tasks in the list.");
-        System.out.println(LINE);
+        output.println("Noted. I've removed this task:");
+        output.println("  " + task);
+        output.println("Now you have " + taskCount + " tasks in the list.");
+        output.println(LINE);
     }
 }
