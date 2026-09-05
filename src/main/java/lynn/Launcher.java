@@ -10,7 +10,11 @@ public final class Launcher {
     private Launcher() {
     }
 
-    /** Starts the JavaFX runtime. */
+    /**
+     * Starts the JavaFX runtime.
+     *
+     * @param args command-line arguments, which are not used
+     */
     public static void main(String[] args) {
         if (GraphicsEnvironment.isHeadless() || hasPipedInput()) {
             new Lynn().run();

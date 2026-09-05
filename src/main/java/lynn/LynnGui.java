@@ -32,6 +32,10 @@ public class LynnGui extends Application {
 
     private Button sendButton;
 
+    /** Creates a Lynn graphical application. */
+    public LynnGui() {
+    }
+
     /** Builds and displays Lynn's main window. */
     @Override
     public void start(Stage stage) {
