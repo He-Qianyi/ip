@@ -23,19 +23,26 @@ class TaskList {
 
     /** Adds a task at the end of the list. */
     void add(Task task) throws LynnException {
+        assert task != null : "task must not be null";
+        assert taskCount >= 0 && taskCount <= MAX_TASKS : "task count must stay within capacity";
         if (taskCount == MAX_TASKS) {
             throw new LynnException("Your task list is full.");
         }
         tasks[taskCount] = task;
         taskCount++;
+        assert tasks[taskCount - 1] == task : "new task must be stored at the end";
     }
 
     Task get(int index) {
+        assert index >= 0 && index < taskCount : "task index must refer to an existing task";
+        assert tasks[index] != null : "existing task slots must not be null";
         return tasks[index];
     }
 
     /** Removes the task at an already-validated zero-based index. */
     Task delete(int index) {
+        assert index >= 0 && index < taskCount : "task index must refer to an existing task";
+        assert tasks[index] != null : "existing task slots must not be null";
         Task deletedTask = tasks[index];
         for (int i = index; i < taskCount - 1; i++) {
             tasks[i] = tasks[i + 1];
@@ -46,6 +53,7 @@ class TaskList {
     }
 
     Task[] find(String keyword) {
+        assert keyword != null && !keyword.isBlank() : "search keyword must not be blank";
         Task[] matchingTasks = new Task[taskCount];
         int matchingTaskCount = 0;
         for (int i = 0; i < taskCount; i++) {
