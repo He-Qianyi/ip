@@ -104,11 +104,13 @@ public class Lynn {
         Task task = tasks.get(taskNumber);
         if (isDone) {
             task.markAsDone();
-            storage.save(tasks);
-            ui.showTaskMarked(task);
         } else {
             task.markAsNotDone();
-            storage.save(tasks);
+        }
+        storage.save(tasks);
+        if (isDone) {
+            ui.showTaskMarked(task);
+        } else {
             ui.showTaskUnmarked(task);
         }
     }

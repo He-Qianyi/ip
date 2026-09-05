@@ -1,5 +1,7 @@
 package lynn;
 
+import java.util.Arrays;
+
 /** Stores and manages Lynn's fixed-capacity task list. */
 class TaskList {
     private static final int MAX_TASKS = 100;
@@ -52,7 +54,7 @@ class TaskList {
                 matchingTaskCount++;
             }
         }
-        return matchingTasks;
+        return Arrays.copyOf(matchingTasks, matchingTaskCount);
     }
 
     int size() {
