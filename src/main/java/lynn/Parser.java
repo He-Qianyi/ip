@@ -107,6 +107,6 @@ class Parser {
     private static LynnException unknownCommandException() {
         return new LynnException(
                 "I don't recognize that command yet. Try todo, deadline, event, list, find, mark, unmark, "
-                        + "delete, or bye.");
+                        + "delete, help, or bye.");
     }
 }

@@ -5,3 +5,4 @@ persistence-and-separators	persistence	todo read | annotate book\nbye	Got it. I'
 persistence-and-separators-reload	persistence	list\nbye	1.[T][ ] read | annotate book;;Bye. Hope to see you again soon!
 state-after-error	state	todo buy bread\nmark 1\nmark 9\nlist\nunmark 1\ndelete 1\nlist\nbye	Nice! I've marked this task as done:;;That task number is not in your list.;;1.[T][X] buy bread;;OK, I've marked this task as not done yet:;;Now you have 0 tasks in the list.
 find-case-insensitive	find	todo Read Book\ntodo buy bread\nevent book club /from Fri 7pm /to 9pm\nfind BOOK\nfind calendar\nfind\nbye	Here are the matching tasks in your list:;;1.[T][ ] Read Book;;2.[E][ ] book club (from: Fri 7pm to: 9pm);;The keyword to find cannot be empty.;;Bye. Hope to see you again soon!
+help-command	help	help\nbye	Here are Lynn's commands:;;todo <description>;;find <keyword>;;help - show this help message.;;bye - exit Lynn.;;Bye. Hope to see you again soon!

@@ -64,6 +64,10 @@ public class Lynn {
             Parser.requireExactCommand(command, "list");
             ui.showTaskList(tasks);
             return false;
+        case "help":
+            Parser.requireExactCommand(command, "help");
+            ui.showHelp();
+            return false;
         case "find":
             findTasks(command);
             return false;

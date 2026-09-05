@@ -67,6 +67,20 @@ class Ui {
         showLines(LINE);
     }
 
+    /** Displays the commands Lynn supports and a short description of each one. */
+    void showHelp() {
+        showLines("Here are Lynn's commands:",
+                "  todo <description> - add a to-do task.",
+                "  deadline <description> /by <yyyy-MM-dd> - add a deadline.",
+                "  event <description> /from <start> /to <end> - add an event.",
+                "  list - show all tasks.",
+                "  find <keyword> - find matching tasks.",
+                "  mark <number> / unmark <number> - update a task's status.",
+                "  delete <number> - remove a task.",
+                "  help - show this help message.",
+                "  bye - exit Lynn.", LINE);
+    }
+
     void showMatchingTasks(Task[] matchingTasks) {
         showLines("Here are the matching tasks in your list:");
         for (int i = 0; i < matchingTasks.length; i++) {

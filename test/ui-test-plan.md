@@ -82,3 +82,9 @@ Run `.agents/skills/test-ui/scripts/run-ui-tests.sh` after a command-line behavi
 * Aim: Verify that `find` matches task descriptions without regard to letter case.
 * Inputs: Add `Read Book`, `buy bread`, and `book club`, then run `find BOOK`, `find calendar`, and `find`.
 * Expected output: The first search lists `Read Book` and `book club` only; a search with no matches lists no tasks; an empty keyword produces a helpful error.
+
+## C-Help: In-app command guidance
+
+* Aim: Verify that Lynn provides an in-app help page listing the supported commands.
+* Inputs: `help`, followed by `bye`.
+* Expected output: Lynn displays a command reference containing the `todo`, `find`, `help`, and `bye` commands, then exits normally.
