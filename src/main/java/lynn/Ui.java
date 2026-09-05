@@ -69,12 +69,8 @@ class Ui {
 
     void showMatchingTasks(Task[] matchingTasks) {
         showLines("Here are the matching tasks in your list:");
-        int displayedTaskCount = 1;
-        for (Task matchingTask : matchingTasks) {
-            if (matchingTask != null) {
-                output.println(displayedTaskCount + "." + matchingTask);
-                displayedTaskCount++;
-            }
+        for (int i = 0; i < matchingTasks.length; i++) {
+            output.println((i + 1) + "." + matchingTasks[i]);
         }
         showLines(LINE);
     }
