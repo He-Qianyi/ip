@@ -28,7 +28,6 @@ public class Deadline extends Task {
 
     /** Returns the deadline in Lynn's list-display format. */
     @Override
-    /** Returns the deadline in Lynn's list-display format. */
     public String toString() {
         return super.toString() + " (by: " + by.format(DISPLAY_FORMAT) + ")";
     }
