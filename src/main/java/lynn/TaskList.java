@@ -1,6 +1,6 @@
 package lynn;
 
-import java.util.Arrays;
+import java.util.stream.IntStream;
 
 /** Stores and manages Lynn's fixed-capacity task list. */
 class TaskList {
@@ -54,15 +54,10 @@ class TaskList {
 
     Task[] find(String keyword) {
         assert keyword != null && !keyword.isBlank() : "search keyword must not be blank";
-        Task[] matchingTasks = new Task[taskCount];
-        int matchingTaskCount = 0;
-        for (int i = 0; i < taskCount; i++) {
-            if (tasks[i].containsKeyword(keyword)) {
-                matchingTasks[matchingTaskCount] = tasks[i];
-                matchingTaskCount++;
-            }
-        }
-        return Arrays.copyOf(matchingTasks, matchingTaskCount);
+        return IntStream.range(0, taskCount)
+                .mapToObj(i -> tasks[i])
+                .filter(task -> task.containsKeyword(keyword))
+                .toArray(Task[]::new);
     }
 
     int size() {
