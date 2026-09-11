@@ -22,6 +22,24 @@ Run `.agents/skills/test-ui/scripts/run-ui-tests.sh` after a command-line behavi
 * Inputs: `todo buy bread`, `mark 1`, `mark 9`, `list`, `unmark 1`, `delete 1`, `list`, `bye`.
 * Expected output: The invalid `mark 9` reports that task 9 does not exist; task 1 remains marked until `unmark 1`, and deletion leaves zero tasks.
 
+### Friendly handling of an empty command
+
+* Aim: Verify that an accidental blank command gives actionable guidance and does not change the task list.
+* Inputs: An empty line, followed by `list` and `bye`.
+* Expected output: Lynn asks the user to enter a command and the list remains empty.
+
+### Lynn's personality
+
+* Aim: Verify that Lynn presents a consistent, encouraging personality when starting.
+* Inputs: Start Lynn and enter `bye`.
+* Expected output: The welcome message describes Lynn as an upbeat study companion and encourages the user to make progress one small step at a time.
+
+### Flexible command input
+
+* Aim: Verify that command keywords are case-insensitive and extra spacing around arguments is accepted.
+* Inputs: `  DEADLINE  submit report   /BY   2026-10-15  `, `LIST`, and `BYE`.
+* Expected output: Lynn adds and lists the deadline as `Oct 15 2026`, then exits normally.
+
 ## Level 7: Persistent Storage
 
 ### First launch creates storage

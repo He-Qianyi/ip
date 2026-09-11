@@ -8,10 +8,14 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /** Provides a graphical interface for Lynn while reusing the command-line core. */
@@ -32,6 +36,12 @@ public class LynnGui extends Application {
 
     private Button sendButton;
 
+    private Label statusLabel;
+
+    private Ui ui;
+
+    private int commandCount = 0;
+
     /** Creates a Lynn graphical application. */
     public LynnGui() {
     }
@@ -40,28 +50,51 @@ public class LynnGui extends Application {
     @Override
     public void start(Stage stage) {
         PrintStream responseOutput = new PrintStream(responseBuffer, true, StandardCharsets.UTF_8);
-        Ui ui = new Ui(responseOutput);
+        ui = new Ui(responseOutput);
         lynn = new Lynn(ui);
+
+        Label title = new Label("Lynn");
+        title.setStyle("-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #17324d;");
+        Label subtitle = new Label("Your upbeat study companion — one small step at a time");
+        subtitle.setStyle("-fx-font-size: 13px; -fx-text-fill: #536779;");
+        VBox header = new VBox(4, title, subtitle);
+        header.setStyle("-fx-background-color: #e5f1ff; -fx-padding: 16px 20px;");
 
         conversation = new TextArea();
         conversation.setEditable(false);
         conversation.setWrapText(true);
+        conversation.setStyle("-fx-control-inner-background: #ffffff; -fx-font-size: 14px;");
 
         commandField = new TextField();
-        commandField.setPromptText("Enter a Lynn command");
+        commandField.setPromptText("Try: todo read book, list, or help");
+        commandField.setTooltip(new Tooltip("Press Enter to send a command"));
         commandField.setOnAction(event -> sendCommand());
 
         sendButton = new Button("Send");
         sendButton.setDefaultButton(true);
+        sendButton.setStyle("-fx-background-color: #2f80ed; -fx-text-fill: white; -fx-font-weight: bold;");
         sendButton.setOnAction(event -> sendCommand());
 
-        HBox inputRow = new HBox(8, commandField, sendButton);
-        HBox.setHgrow(commandField, javafx.scene.layout.Priority.ALWAYS);
-        inputRow.setPadding(new Insets(8));
+        Button clearButton = new Button("Clear chat");
+        clearButton.setTooltip(new Tooltip("Clear the conversation; saved tasks are kept"));
+        clearButton.setOnAction(event -> clearConversation());
+
+        HBox inputRow = new HBox(8, commandField, sendButton, clearButton);
+        HBox.setHgrow(commandField, Priority.ALWAYS);
+        inputRow.setPadding(new Insets(10, 12, 6, 12));
+
+        Label quickHelp = new Label(
+                "Quick start: todo …   •   deadline … /by yyyy-MM-dd   •   event …   •   help");
+        quickHelp.setStyle("-fx-text-fill: #536779; -fx-font-size: 12px;");
+
+        statusLabel = new Label("Ready — your tasks are saved automatically");
+        statusLabel.setStyle("-fx-text-fill: #536779; -fx-padding: 0 12px 10px 12px;");
 
         BorderPane root = new BorderPane();
+        root.setTop(header);
         root.setCenter(conversation);
-        root.setBottom(inputRow);
+        root.setBottom(new VBox(inputRow, quickHelp, statusLabel));
+        root.setStyle("-fx-background-color: #f5f8fc;");
 
         ui.showWelcome();
         appendBufferedResponse();
@@ -75,6 +108,10 @@ public class LynnGui extends Application {
     private void sendCommand() {
         String command = commandField.getText().trim();
         if (command.isEmpty()) {
+            conversation.appendText("You: (empty command)\n");
+            lynn.respondTo(command);
+            appendBufferedResponse();
+            statusLabel.setText("Please enter a command, or choose help for guidance");
             return;
         }
 
@@ -82,11 +119,21 @@ public class LynnGui extends Application {
         boolean shouldExit = lynn.respondTo(command);
         appendBufferedResponse();
         commandField.clear();
+        commandCount++;
+        statusLabel.setText("Commands this session: " + commandCount + " — tasks are saved automatically");
 
         if (shouldExit) {
             commandField.setDisable(true);
             sendButton.setDisable(true);
         }
+    }
+
+    /** Clears only the visible conversation while keeping Lynn's saved tasks unchanged. */
+    private void clearConversation() {
+        conversation.clear();
+        conversation.appendText("Chat cleared. Your saved tasks are still safe.\n");
+        commandField.requestFocus();
+        statusLabel.setText("Chat cleared — saved tasks are unchanged");
     }
 
     /** Copies the latest core response into the conversation and clears the buffer. */

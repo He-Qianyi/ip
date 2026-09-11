@@ -31,8 +31,7 @@ dependencies {
 
     javaFxModules.each { module ->
         javaFxPlatforms.each { platform ->
-            implementation group: 'org.openjfx', name: "javafx-${module}",
-                    version: javaFxVersion, classifier: platform
+            implementation "org.openjfx:javafx-${module}:${javaFxVersion}:${platform}"
         }
     }
 }

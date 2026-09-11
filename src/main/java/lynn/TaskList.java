@@ -4,7 +4,7 @@ import java.util.stream.IntStream;
 
 /** Stores and manages Lynn's fixed-capacity task list. */
 class TaskList {
-    private static final int MAX_TASKS = 100;
+    static final int MAX_TASKS = 100;
 
     private final Task[] tasks;
 
@@ -52,6 +52,18 @@ class TaskList {
         return deletedTask;
     }
 
+    /** Inserts a task at an existing zero-based index, restoring a prior deletion if needed. */
+    void insert(int index, Task task) {
+        assert index >= 0 && index <= taskCount : "insert index must be within the task list";
+        assert task != null : "task must not be null";
+        assert taskCount < MAX_TASKS : "task list must have room for an inserted task";
+        for (int i = taskCount; i > index; i--) {
+            tasks[i] = tasks[i - 1];
+        }
+        tasks[index] = task;
+        taskCount++;
+    }
+
     Task[] find(String keyword) {
         assert keyword != null && !keyword.isBlank() : "search keyword must not be blank";
         return IntStream.range(0, taskCount)
@@ -65,7 +77,7 @@ class TaskList {
     }
 
     /** Counts the contiguous non-null tasks that were loaded from storage. */
-    private int countTasks(Task[] loadedTasks) {
+    private static int countTasks(Task[] loadedTasks) {
         int loadedTaskCount = 0;
         while (loadedTaskCount < loadedTasks.length && loadedTasks[loadedTaskCount] != null) {
             loadedTaskCount++;

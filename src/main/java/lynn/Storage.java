@@ -2,8 +2,10 @@ package lynn;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,17 +14,25 @@ import java.util.List;
 
 /** Handles persistent storage of Lynn's task list. */
 final class Storage {
-    private static final Path STORAGE_PATH = Path.of("data", "lynn.txt");
+    private static final Path DEFAULT_STORAGE_PATH = Path.of("data", "lynn.txt");
+
+    private final Path storagePath;
 
     Storage() {
+        this(DEFAULT_STORAGE_PATH);
+    }
+
+    /** Creates storage backed by the supplied path, which is useful for isolated tests. */
+    Storage(Path storagePath) {
+        this.storagePath = storagePath;
     }
 
     /** Loads saved tasks, creating the storage directory and file if needed. */
     TaskList load() throws LynnException {
         try {
             createStorageIfMissing();
-            List<String> taskLines = Files.readAllLines(STORAGE_PATH, StandardCharsets.UTF_8);
-            Task[] tasks = new Task[100];
+            List<String> taskLines = Files.readAllLines(storagePath, StandardCharsets.UTF_8);
+            Task[] tasks = new Task[TaskList.MAX_TASKS];
             int taskCount = 0;
 
             for (String taskLine : taskLines) {
@@ -45,23 +55,44 @@ final class Storage {
 
     /** Saves all current tasks to a relative, OS-independent file path. */
     void save(TaskList tasks) throws LynnException {
+        Path temporaryPath = null;
         try {
             createStorageIfMissing();
             List<String> taskLines = new ArrayList<>();
             for (int i = 0; i < tasks.size(); i++) {
                 taskLines.add(formatTask(tasks.get(i)));
             }
-            Files.write(STORAGE_PATH, taskLines, StandardCharsets.UTF_8);
+            Path temporaryDirectory = storagePath.getParent() == null
+                    ? Path.of(".") : storagePath.getParent();
+            temporaryPath = Files.createTempFile(temporaryDirectory, "lynn-", ".tmp");
+            Files.write(temporaryPath, taskLines, StandardCharsets.UTF_8);
+            try {
+                Files.move(temporaryPath, storagePath, StandardCopyOption.ATOMIC_MOVE,
+                        StandardCopyOption.REPLACE_EXISTING);
+            } catch (AtomicMoveNotSupportedException e) {
+                Files.move(temporaryPath, storagePath, StandardCopyOption.REPLACE_EXISTING);
+            }
         } catch (IOException e) {
             throw new LynnException("I couldn't save your tasks.");
+        } finally {
+            if (temporaryPath != null) {
+                try {
+                    Files.deleteIfExists(temporaryPath);
+                } catch (IOException ignored) {
+                    // The saved file is already valid; a leftover temporary file is harmless.
+                }
+            }
         }
     }
 
     /** Creates the storage directory and file when Lynn runs for the first time. */
-    private static void createStorageIfMissing() throws IOException {
-        Files.createDirectories(STORAGE_PATH.getParent());
-        if (Files.notExists(STORAGE_PATH)) {
-            Files.createFile(STORAGE_PATH);
+    private void createStorageIfMissing() throws IOException {
+        Path parent = storagePath.getParent();
+        if (parent != null) {
+            Files.createDirectories(parent);
+        }
+        if (Files.notExists(storagePath)) {
+            Files.createFile(storagePath);
         }
     }
 
@@ -81,6 +112,9 @@ final class Storage {
     /** Converts one saved storage record into the corresponding task object. */
     private static Task parseTask(String taskLine) {
         String[] fields = taskLine.split("\\|", -1);
+        if (fields.length < 2) {
+            throw new IllegalArgumentException("Missing task status");
+        }
         Task task = switch (fields[0]) {
         case "T" -> createTodo(fields);
         case "D" -> createDeadline(fields);

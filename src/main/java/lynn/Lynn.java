@@ -10,12 +10,17 @@ public class Lynn {
 
     /** Creates Lynn and loads any previously saved task list. */
     public Lynn() {
-        this(new Ui());
+        this(new Ui(), new Storage());
     }
 
     /** Creates Lynn with the given user interface. */
     Lynn(Ui ui) {
-        storage = new Storage();
+        this(ui, new Storage());
+    }
+
+    /** Creates Lynn with injectable collaborators so storage and UI behavior can be tested in isolation. */
+    Lynn(Ui ui, Storage storage) {
+        this.storage = storage;
         this.ui = ui;
         TaskList loadedTasks;
         try {
@@ -55,6 +60,9 @@ public class Lynn {
     /** Routes a user command to the matching operation. */
     private boolean handleCommand(String command) throws LynnException {
         String commandWord = Parser.getCommandWord(command);
+        if (commandWord.isEmpty()) {
+            throw new LynnException("Please enter a command. Try help to see what I can do.");
+        }
         switch (commandWord) {
         case "bye":
             Parser.requireExactCommand(command, "bye");
@@ -97,7 +105,12 @@ public class Lynn {
     private void addTask(String command) throws LynnException {
         Task task = Parser.parseTask(command);
         tasks.add(task);
-        storage.save(tasks);
+        try {
+            storage.save(tasks);
+        } catch (LynnException e) {
+            tasks.delete(tasks.size() - 1);
+            throw e;
+        }
         ui.showTaskAdded(task, tasks.size());
     }
 
@@ -106,12 +119,22 @@ public class Lynn {
         String commandWord = Parser.getCommandWord(command);
         int taskNumber = Parser.parseTaskNumber(command, commandWord, tasks.size());
         Task task = tasks.get(taskNumber);
+        boolean previousState = task.isDone();
         if (isDone) {
             task.markAsDone();
         } else {
             task.markAsNotDone();
         }
-        storage.save(tasks);
+        try {
+            storage.save(tasks);
+        } catch (LynnException e) {
+            if (previousState) {
+                task.markAsDone();
+            } else {
+                task.markAsNotDone();
+            }
+            throw e;
+        }
         if (isDone) {
             ui.showTaskMarked(task);
         } else {
@@ -123,7 +146,12 @@ public class Lynn {
     private void deleteTask(String command) throws LynnException {
         int taskNumber = Parser.parseTaskNumber(command, "delete", tasks.size());
         Task deletedTask = tasks.delete(taskNumber);
-        storage.save(tasks);
+        try {
+            storage.save(tasks);
+        } catch (LynnException e) {
+            tasks.insert(taskNumber, deletedTask);
+            throw e;
+        }
         ui.showTaskDeleted(deletedTask, tasks.size());
     }
 

@@ -44,7 +44,8 @@ class Ui {
     }
 
     void showWelcome() {
-        showLines(LINE, BANNER, "Hello! I'm Lynn.", "How can I help you today?", LINE);
+        showLines(LINE, BANNER, "Hello! I'm Lynn, your upbeat study companion.",
+                "Let's make progress one small step at a time!", "How can I help you today?", LINE);
     }
 
     void showLoadingError(String message) {
